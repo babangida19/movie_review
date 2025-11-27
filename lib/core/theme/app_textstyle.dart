@@ -11,10 +11,17 @@ class AppTextstyle {
         fontSize: fontSize.sp, fontWeight: fontWeight, color: color);
   }
 
+  static TextStyle size16W900(
+      {double fontSize = 16,
+      FontWeight fontWeight = FontWeight.w900,
+      Color color = AppColor.mainColor}) {
+    return TextStyle(
+        fontSize: fontSize.sp, fontWeight: fontWeight, color: color);
+  }
   static TextStyle size16W500(
       {double fontSize = 16,
       FontWeight fontWeight = FontWeight.w500,
-      Color color = AppColor.primaryText}) {
+      Color color = AppColor.mainColor}) {
     return TextStyle(
         fontSize: fontSize.sp, fontWeight: fontWeight, color: color);
   }
@@ -27,10 +34,10 @@ class AppTextstyle {
         fontSize: fontSize.sp, fontWeight: fontWeight, color: color);
   }
 
-  static TextStyle size14W600(
+  static TextStyle size14W700(
       {double fontSize = 14,
-      FontWeight fontWeight = FontWeight.w600,
-      Color color = AppColor.primaryText}) {
+      FontWeight fontWeight = FontWeight.w700,
+      Color color = AppColor.black}) {
     return TextStyle(
         fontSize: fontSize.sp, fontWeight: fontWeight, color: color);
   }
