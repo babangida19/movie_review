@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:movie_review/core/theme/app_color.dart';
 import 'package:movie_review/core/theme/app_textstyle.dart';
 import 'package:movie_review/core/widgets/spacing.dart';
+import 'package:movie_review/feature/movie_details/view/movie_detail_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -82,7 +83,34 @@ class HomeView extends StatelessWidget {
                             style: AppTextstyle.size12W400(
                                 color: AppColor.primaryText)),
                       ],
-                    )
+                    ),
+                    YMargin(8),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MovieDetailView()));
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 4.h, horizontal: 12.w),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100.r),
+                            color: AppColor.blue100),
+                        child: Text("HORROR", style: AppTextstyle.size8W700()),
+                      ),
+                    ),
+                    YMargin(8),
+                    Row(
+                      children: [
+                        SvgPicture.asset("assets/icons/icon_duration.svg"),
+                        XMargin(4),
+                        Text("1h 47m",
+                            style:
+                                AppTextstyle.size12W400(color: AppColor.black)),
+                      ],
+                    ),
                   ],
                 ),
               ],

@@ -10,6 +10,13 @@ class AppTextstyle {
     return TextStyle(
         fontSize: fontSize.sp, fontWeight: fontWeight, color: color);
   }
+  static TextStyle size20W700(
+      {double fontSize = 20,
+      FontWeight fontWeight = FontWeight.w700,
+      Color color = AppColor.black}) {
+    return TextStyle(
+        fontSize: fontSize.sp, fontWeight: fontWeight, color: color);
+  }
 
   static TextStyle size16W900(
       {double fontSize = 16,
@@ -54,6 +61,14 @@ class AppTextstyle {
       {double fontSize = 12,
       FontWeight fontWeight = FontWeight.w400,
       Color color = AppColor.black}) {
+    return TextStyle(
+        fontSize: fontSize.sp, fontWeight: fontWeight, color: color);
+  }
+
+  static TextStyle size8W700(
+      {double fontSize = 8,
+      FontWeight fontWeight = FontWeight.w700,
+      Color color = AppColor.blue200}) {
     return TextStyle(
         fontSize: fontSize.sp, fontWeight: fontWeight, color: color);
   }
