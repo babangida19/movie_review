@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return MaterialApp(
               title: 'Movie App',
+              debugShowCheckedModeBanner: false,
               theme: ThemeData(
                   colorScheme:
                       ColorScheme.fromSeed(seedColor: Colors.deepPurple),

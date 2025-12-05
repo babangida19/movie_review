@@ -4,11 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:movie_review/core/model/popular_movie_model.dart';
-import 'package:movie_review/core/theme/app_color.dart';
 import 'package:movie_review/core/theme/app_textstyle.dart';
 import 'package:movie_review/core/util/providers.dart';
 import 'package:movie_review/core/widgets/spacing.dart';
-import 'package:movie_review/feature/movie_details/view/movie_detail_view.dart';
+import 'package:movie_review/feature/home/widget/highest_rated_card.dart';
+import 'package:movie_review/feature/home/widget/popular_movie_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeView extends HookConsumerWidget {
@@ -36,56 +36,16 @@ class HomeView extends HookConsumerWidget {
               SvgPicture.asset("assets/icons/icon_notif.svg")
             ],
           ),
-          YMargin(32),
+          YMargin(30),
+          Text("Highest Rated", style: AppTextstyle.size16W900()),
+          YMargin(15),
           viewModel.highestRatedMovies.when(
             data: (data) {
               return CarouselSlider.builder(
                 itemCount: data.results?.length ?? 0,
                 itemBuilder: (BuildContext context, int index, int realIndex) {
                   final movie = data.results?[index];
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.r),
-                        child: Image.network(
-                          "https://image.tmdb.org/t/p/w500${movie?.posterPath}",
-                          fit: BoxFit.cover,
-                          height: 128.h,
-                          width: 100.w,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              height: 128.h,
-                              width: 100.w,
-                              color: Colors.grey,
-                              child: Icon(Icons.movie),
-                            );
-                          },
-                        ),
-                      ),
-                      YMargin(12),
-                      SizedBox(
-                        width: 100.w,
-                        child: Text(
-                          movie?.title ?? "_",
-                          style: AppTextstyle.size14W700(),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      YMargin(8),
-                      Row(
-                        children: [
-                          SvgPicture.asset("assets/icons/icon_star.svg"),
-                          XMargin(4),
-                          Text(
-                              "${movie?.voteAverage?.toStringAsFixed(1) ?? '0.0'}/10",
-                              style: AppTextstyle.size12W400(
-                                  color: AppColor.primaryText)),
-                        ],
-                      )
-                    ],
-                  );
+                  return HighestRatedCard(movie: movie);
                 },
                 options: CarouselOptions(
                   enlargeCenterPage: true,
@@ -95,8 +55,8 @@ class HomeView extends HookConsumerWidget {
                 ),
               );
             },
-            error: (error, stack) => Text("data"),
-            loading: () => CircularProgressIndicator(),
+            error: (error, stack) => Text("Error while loading movies"),
+            loading: () => HighestRatedCardShimmer(),
           ),
           YMargin(15),
           Text("Popular", style: AppTextstyle.size16W900()),
@@ -114,77 +74,7 @@ class HomeView extends HookConsumerWidget {
                   itemBuilder: (context, movie, index) {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 12.h),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(8.r),
-                            child: Image.network(
-                              "https://image.tmdb.org/t/p/w200${movie.posterPath}",
-                              fit: BoxFit.cover,
-                              height: 128.h,
-                              width: 100.w,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  height: 128.h,
-                                  width: 100.w,
-                                  color: Colors.grey,
-                                  child: Icon(Icons.movie),
-                                );
-                              },
-                            ),
-                          ),
-                          XMargin(12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  movie.title ?? "Unknown",
-                                  style: AppTextstyle.size14W700(
-                                      color: AppColor.mainColor),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                YMargin(6),
-                                Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                        "assets/icons/icon_star.svg"),
-                                    XMargin(4),
-                                    Text(
-                                        "${movie.voteAverage?.toStringAsFixed(1) ?? '0.0'}/10 IMDb",
-                                        style: AppTextstyle.size12W400(
-                                            color: AppColor.primaryText)),
-                                  ],
-                                ),
-                                YMargin(8),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                MovieDetailView(
-                                                  movieId: movie.id ?? 0,
-                                                )));
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 4.h, horizontal: 12.w),
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(100.r),
-                                        color: AppColor.blue100),
-                                    child: Text("VIEW DETAILS",
-                                        style: AppTextstyle.size8W700()),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: PopularMovieCard(movie: movie),
                     );
                   },
                   firstPageErrorIndicatorBuilder: (context) => Center(
@@ -223,7 +113,7 @@ class HomeView extends HookConsumerWidget {
                     ),
                   ),
                   firstPageProgressIndicatorBuilder: (context) => Center(
-                    child: CircularProgressIndicator(),
+                    child: PopularMovieCardShimmer(),
                   ),
                   newPageProgressIndicatorBuilder: (context) => Padding(
                     padding: EdgeInsets.all(16.h),
