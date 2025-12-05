@@ -4,9 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:movie_review/core/theme/app_color.dart';
 import 'package:movie_review/core/util/locator.dart';
-import 'package:movie_review/core/util/providers.dart';
 import 'package:movie_review/main_view.dart';
-import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

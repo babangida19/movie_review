@@ -90,7 +90,7 @@ class HomeView extends HookConsumerWidget {
                 options: CarouselOptions(
                   enlargeCenterPage: true,
                   aspectRatio: 113 / 79,
-                  autoPlay: true,
+                  autoPlay: false,
                   viewportFraction: 0.42,
                 ),
               );

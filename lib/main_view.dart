@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:movie_review/feature/home/view/home_view.dart';
 import 'package:movie_review/core/theme/app_color.dart';
 
@@ -18,29 +19,23 @@ class MainView extends HookWidget {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         backgroundColor: AppColor.white,
-        elevation: 0,
-        height: 94.h,
+        elevation: 8,
+        height: 60.h,
         selectedIndex: selectedIndex.value,
         onDestinationSelected: onDestinationSelected,
+        indicatorColor: AppColor.white,
         destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home),
-            // Assets.icons.iconExplore.svg(),
-            label: "Explore",
+            icon:SvgPicture.asset("assets/icons/icon_home_tab.svg"),
+            label: "",
           ),
           NavigationDestination(
-            icon: Icon(Icons.search),
-            // Assets.icons.iconWallet.svg(),
-            label: "Portfolio",
+            icon: SvgPicture.asset("assets/icons/icon_bookmarket_tab.svg"),
+            label: "",
           ),
           NavigationDestination(
-            icon: Icon(Icons.book),
-            // Assets.icons.iconSpend.svg(),
-            label: "Spend",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person),
-            label: "Connect",
+            icon:SvgPicture.asset("assets/icons/icon_saved_tab.svg"),
+            label: "",
           ),
         ],
       ),
@@ -58,8 +53,7 @@ class MainView extends HookWidget {
         return Container();
       case 3:
         return Container();
-      case 4:
-        return Container();
+
       default:
         return Container();
     }
