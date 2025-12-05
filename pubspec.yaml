@@ -44,6 +44,8 @@ dependencies:
   get_it: ^9.1.1
   provider: ^6.1.5+1
   carousel_slider: ^5.1.1
+  infinite_scroll_pagination: ^5.1.1
+  hooks_riverpod: ^2.6.1
 
 dev_dependencies:
   flutter_test:

@@ -1,76 +1,85 @@
-import 'package:flutter/material.dart';
-import 'package:movie_review/core/model/movie_detail.dart';
 import 'package:movie_review/core/model/popular_movie_model.dart';
-import 'package:movie_review/core/networking_service/data_response.dart';
 import 'package:movie_review/core/repo/movie_repo.dart';
-import 'package:movie_review/core/util/locator.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class MovieViewmodel extends ChangeNotifier {
-  final _movieRepo = serviceLocator<MovieRepo>();
+class HomeViewmodel extends StateNotifier<HomeState> {
+  final MovieRepo _movieRepo;
+  late final PagingController<int, Result> popularPagingController;
 
-  NetworkDataResponse<PopularMovieModel> _popularMovieResponse =
-      NetworkDataResponse.idle();
+  HomeViewmodel(MovieRepo movieRepo)
+      : _movieRepo = movieRepo,
+        super(HomeState.initial()) {
+    popularPagingController = PagingController<int, Result>(
+      getNextPageKey: (state) {
+        if (!state.hasNextPage) return null;
+        final lastKey = state.keys?.last ?? 0;
+        return lastKey + 1;
+      },
+      fetchPage: _fetchPopularMovies,
+    );
 
-  NetworkDataResponse<PopularMovieModel> get popularMovieResponse =>
-      _popularMovieResponse;
-
-  set popularMovieResponse(NetworkDataResponse<PopularMovieModel> value) {
-    _popularMovieResponse = value;
-    notifyListeners();
+    getHighestRatedMovie();
   }
 
-  getPopularMovie() async {
-    popularMovieResponse = NetworkDataResponse.loading("");
-
+  Future<List<Result>> _fetchPopularMovies(int pageKey) async {
     try {
-      var response = await _movieRepo.getPopularMovie();
-      popularMovieResponse = NetworkDataResponse.completed(response);
-    } catch (e) {
-      popularMovieResponse = NetworkDataResponse.error(e.toString());
+      final response = await _movieRepo.getPopularMovie(page: pageKey);
+
+      state = state.copyWith(
+        popularMovies: AsyncValue.data(response),
+      );
+
+      return response.results ?? [];
+    } catch (e, s) {
+      state = state.copyWith(
+        popularMovies: AsyncValue.error(e, s),
+      );
+      rethrow;
     }
   }
 
-  NetworkDataResponse<MovieDetailsModel> _movieDetailResponse =
-      NetworkDataResponse.idle();
-
-  NetworkDataResponse<MovieDetailsModel> get movieDetailResponse =>
-      _movieDetailResponse;
-
-  set movieDetailResponse(NetworkDataResponse<MovieDetailsModel> value) {
-    _movieDetailResponse = value;
-    notifyListeners();
-  }
-
-  getMovieDetails(int movieId) async {
-    movieDetailResponse = NetworkDataResponse.loading("");
+  Future<void> getHighestRatedMovie() async {
+    state = state.copyWith(
+      highestRatedMovies: AsyncValue.loading(),
+    );
 
     try {
-      var response = await _movieRepo.getMovieDetail(movieId: movieId);
-      movieDetailResponse = NetworkDataResponse.completed(response);
-    } catch (e) {
-      movieDetailResponse = NetworkDataResponse.error(e.toString());
+      var response = await _movieRepo.getHighestRatedMovie(page: 1);
+      state = state.copyWith(
+        highestRatedMovies: AsyncValue.data(response),
+      );
+    } catch (e, s) {
+      state = state.copyWith(
+        highestRatedMovies: AsyncValue.error(e, s),
+      );
     }
   }
 
-  NetworkDataResponse<PopularMovieModel> _highestRatedMovieResponse =
-      NetworkDataResponse.idle();
-
-  NetworkDataResponse<PopularMovieModel> get highestRatedMovieResponse =>
-      _highestRatedMovieResponse;
-
-  set highestRatedMovieResponse(NetworkDataResponse<PopularMovieModel> value) {
-    _highestRatedMovieResponse = value;
-    notifyListeners();
+  @override
+  void dispose() {
+    popularPagingController.dispose();
+    super.dispose();
   }
-  getHighestRatedMovie(int movieId) async {
-    highestRatedMovieResponse = NetworkDataResponse.loading("");
+}
 
-    try {
-      var response =
-          await _movieRepo.getHighestRatedMovie(movieId: movieId);
-      highestRatedMovieResponse = NetworkDataResponse.completed(response);
-    } catch (e) {
-      highestRatedMovieResponse = NetworkDataResponse.error(e.toString());
-    }
+class HomeState {
+  final AsyncValue<PopularMovieModel> popularMovies;
+  final AsyncValue<PopularMovieModel> highestRatedMovies;
+
+  HomeState({required this.popularMovies, required this.highestRatedMovies});
+
+  HomeState.initial()
+      : popularMovies = const AsyncValue.loading(),
+        highestRatedMovies = const AsyncValue.loading();
+
+  HomeState copyWith({
+    AsyncValue<PopularMovieModel>? popularMovies,
+    AsyncValue<PopularMovieModel>? highestRatedMovies,
+  }) {
+    return HomeState(
+      popularMovies: popularMovies ?? this.popularMovies,
+      highestRatedMovies: highestRatedMovies ?? this.highestRatedMovies,
+    );
   }
 }
