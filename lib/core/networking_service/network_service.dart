@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movie_review/core/networking_service/app_exceptions.dart';
 
 abstract class NetworkService {
@@ -9,7 +10,6 @@ abstract class NetworkService {
 
 class NetworkClientImpl extends NetworkService {
   final Dio _dio = Dio();
-
   NetworkClientImpl() {
     _dio.options.connectTimeout = const Duration(seconds: 15000);
     _dio.options.receiveTimeout = const Duration(seconds: 9000);
@@ -40,8 +40,8 @@ class AuthorizationTokenInjector extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    options.headers["Authorization"] =
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYWZmMWI0ODJmN2Y3YzNkMjg1NmJjMWNkYmU5NTZhOCIsIm5iZiI6MTc2Mzk4MzAzMS4zNTMsInN1YiI6IjY5MjQzZWI3M2EzYTI3OTBhYWI3NGIwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MGKmEZygOyTDlui2i9sgfW_zokQHlf6QDyM5E1KAaVI";
+    options.headers["Authorization"] =dotenv.env['API_KEY'];
+        // "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYWZmMWI0ODJmN2Y3YzNkMjg1NmJjMWNkYmU5NTZhOCIsIm5iZiI6MTc2Mzk4MzAzMS4zNTMsInN1YiI6IjY5MjQzZWI3M2EzYTI3OTBhYWI3NGIwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MGKmEZygOyTDlui2i9sgfW_zokQHlf6QDyM5E1KAaVI";
     super.onRequest(options, handler);
   }
 }

@@ -46,6 +46,7 @@ dependencies:
   carousel_slider: ^5.1.1
   infinite_scroll_pagination: ^5.1.1
   hooks_riverpod: ^2.6.1
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,8 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - .env
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

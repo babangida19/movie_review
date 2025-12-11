@@ -70,7 +70,6 @@ class PopularMovieCard extends StatelessWidget {
                   ],
                 ),
                 YMargin(8),
-                // movie.
                 Container(
                   padding:
                       EdgeInsets.symmetric(vertical: 4.h, horizontal: 12.w),

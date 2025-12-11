@@ -167,9 +167,8 @@ class MovieDetailView extends HookConsumerWidget {
                         }
 
                         return CarouselSlider.builder(
-                          itemCount: data.cast!.length > 10
-                              ? 10
-                              : data.cast!.length, // Limit to 10 cast members
+                          itemCount:
+                              data.cast!.length > 10 ? 10 : data.cast!.length,
                           options: CarouselOptions(
                             height: 140.h,
                             viewportFraction: 0.25,
@@ -295,7 +294,6 @@ class MovieDetailView extends HookConsumerWidget {
                         );
                       },
                     ),
-         
                   ],
                 ),
               ),

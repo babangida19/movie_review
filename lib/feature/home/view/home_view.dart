@@ -62,7 +62,7 @@ class HomeView extends HookConsumerWidget {
                       return HighestRatedCard(movie: movie);
                     },
                     options: CarouselOptions(
-                        enlargeCenterPage: true,
+                        // enlargeCenterPage: true,
                         aspectRatio: 158 / 104,
                         autoPlay: false,
                         viewportFraction: 0.31),
