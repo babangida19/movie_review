@@ -41,7 +41,6 @@ class Result {
     final String? backdropPath;
     final List<int>? genreIds;
     final int? id;
-    // final OriginalLanguage? originalLanguage;
     final String? originalTitle;
     final String? overview;
     final double? popularity;
@@ -57,7 +56,6 @@ class Result {
         this.backdropPath,
         this.genreIds,
         this.id,
-        // this.originalLanguage,
         this.originalTitle,
         this.overview,
         this.popularity,
@@ -74,7 +72,6 @@ class Result {
         backdropPath: json["backdrop_path"],
         genreIds: json["genre_ids"] == null ? [] : List<int>.from(json["genre_ids"]!.map((x) => x)),
         id: json["id"],
-        // originalLanguage: originalLanguageValues.map[json["original_language"]]!,
         originalTitle: json["original_title"],
         overview: json["overview"],
         popularity: json["popularity"]?.toDouble(),
@@ -91,7 +88,6 @@ class Result {
         "backdrop_path": backdropPath,
         "genre_ids": genreIds == null ? [] : List<dynamic>.from(genreIds!.map((x) => x)),
         "id": id,
-        // "original_language": originalLanguageValues.reverse[originalLanguage],
         "original_title": originalTitle,
         "overview": overview,
         "popularity": popularity,
@@ -104,28 +100,3 @@ class Result {
     };
 }
 
-enum OriginalLanguage {
-    EN,
-    ES,
-    KO,
-    NL
-}
-
-final originalLanguageValues = EnumValues({
-    "en": OriginalLanguage.EN,
-    "es": OriginalLanguage.ES,
-    "ko": OriginalLanguage.KO,
-    "nl": OriginalLanguage.NL
-});
-
-class EnumValues<T> {
-    Map<String, T> map;
-    late Map<T, String> reverseMap;
-
-    EnumValues(this.map);
-
-    Map<T, String> get reverse {
-            reverseMap = map.map((k, v) => MapEntry(v, k));
-            return reverseMap;
-    }
-}

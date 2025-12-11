@@ -82,6 +82,7 @@ class HighestRatedCardShimmer extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            XMargin(24),
             Expanded(
                 child: AppShimmer.rectangular(height: 128.h, width: 100.w)),
             XMargin(4),
@@ -90,6 +91,7 @@ class HighestRatedCardShimmer extends StatelessWidget {
             XMargin(4),
             Expanded(
                 child: AppShimmer.rectangular(height: 128.h, width: 100.w)),
+            XMargin(24),
           ],
         ),
       ],

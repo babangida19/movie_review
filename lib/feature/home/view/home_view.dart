@@ -17,63 +17,80 @@ class HomeView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(homeViewModel);
-
     final viewModelNotifier = ref.read(homeViewModel.notifier);
+
     return SafeArea(
-        child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SvgPicture.asset("assets/icons/icon_menu.svg"),
-              Text(
-                "FilmKu",
-                style: AppTextstyle.size16W500(),
-              ),
-              SvgPicture.asset("assets/icons/icon_notif.svg")
-            ],
-          ),
-          YMargin(30),
-          Text("Highest Rated", style: AppTextstyle.size16W900()),
-          YMargin(15),
-          viewModel.highestRatedMovies.when(
-            data: (data) {
-              return CarouselSlider.builder(
-                itemCount: data.results?.length ?? 0,
-                itemBuilder: (BuildContext context, int index, int realIndex) {
-                  final movie = data.results?[index];
-                  return HighestRatedCard(movie: movie);
-                },
-                options: CarouselOptions(
-                  enlargeCenterPage: true,
-                  aspectRatio: 113 / 79,
-                  autoPlay: false,
-                  viewportFraction: 0.42,
+      child: RefreshIndicator(
+        onRefresh: () async {
+          viewModelNotifier.popularPagingController.refresh();
+        },
+        child: CustomScrollView(
+          clipBehavior: Clip.antiAlias,
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+              sliver: SliverToBoxAdapter(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SvgPicture.asset("assets/icons/icon_menu.svg"),
+                    Text(
+                      "FilmKu",
+                      style: AppTextstyle.size16W500(),
+                    ),
+                    SvgPicture.asset("assets/icons/icon_notif.svg")
+                  ],
                 ),
-              );
-            },
-            error: (error, stack) => Text("Error while loading movies"),
-            loading: () => HighestRatedCardShimmer(),
-          ),
-          YMargin(15),
-          Text("Popular", style: AppTextstyle.size16W900()),
-          YMargin(15),
-          Expanded(
-            child: RefreshIndicator(
-              onRefresh: () async {
-                viewModelNotifier.popularPagingController.refresh();
-              },
-              child: PagedListView<int, Result>(
+              ),
+            ),
+            SliverToBoxAdapter(child: YMargin(30)),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                child: Text("Highest Rated", style: AppTextstyle.size16W900()),
+              ),
+            ),
+            SliverToBoxAdapter(child: YMargin(15)),
+            SliverToBoxAdapter(
+              child: viewModel.highestRatedMovies.when(
+                data: (data) {
+                  return CarouselSlider.builder(
+                    itemCount: data.results?.length ?? 0,
+                    itemBuilder:
+                        (BuildContext context, int index, int realIndex) {
+                      final movie = data.results?[index];
+                      return HighestRatedCard(movie: movie);
+                    },
+                    options: CarouselOptions(
+                        enlargeCenterPage: true,
+                        aspectRatio: 158 / 104,
+                        autoPlay: false,
+                        viewportFraction: 0.31),
+                  );
+                },
+                error: (error, stack) => Text("Error while loading movies"),
+                loading: () => HighestRatedCardShimmer(),
+              ),
+            ),
+          SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+              sliver: SliverToBoxAdapter(
+                child: Text("Popular", style: AppTextstyle.size16W900()),
+              ),
+            ),
+            SliverToBoxAdapter(child: YMargin(15)),
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+              sliver: PagedSliverList<int, Result>(
                 state: viewModelNotifier.popularPagingController.value,
                 fetchNextPage:
                     viewModelNotifier.popularPagingController.fetchNextPage,
                 builderDelegate: PagedChildBuilderDelegate<Result>(
                   itemBuilder: (context, movie, index) {
                     return Padding(
-                      padding: EdgeInsets.only(bottom: 12.h),
+                      padding: EdgeInsets.only(
+                        bottom: 12.h,
+                      ),
                       child: PopularMovieCard(movie: movie),
                     );
                   },
@@ -136,9 +153,9 @@ class HomeView extends HookConsumerWidget {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
