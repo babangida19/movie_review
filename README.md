@@ -1,16 +1,25 @@
-# movie_review
+# 🎬 Movie Review App (Flutter + IMDb API)
 
-A new Flutter project.
+A beautifully designed **Movie Review App** built with **Flutter**, allowing users to explore movies, view ratings, and check detailed information fetched directly from the **IMDb API**.  
+This project showcases clean architecture, smooth UI animations, and efficient state management using **Riverpod + Clean Architecture**.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## ⭐ Features
 
-A few resources to get you started if this is your first Flutter project:
+### 🔥 Home Screen
+- Trending Movies  
+- Popular Movies  
+- Highest Rated Movies  
+- Shimmer loading effects  
+- Smooth horizontal & vertical carousels  
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🎥 Movie Details Page
+- High-quality poster & backdrop images  
+- IMDb ratings  
+- Storyline / overview  
+- Release date  
+- Runtime  
+- Genre chips  
+- Cast list  
+- Related movies  

@@ -41,7 +41,6 @@ class AuthorizationTokenInjector extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     options.headers["Authorization"] =dotenv.env['API_KEY'];
-        // "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYWZmMWI0ODJmN2Y3YzNkMjg1NmJjMWNkYmU5NTZhOCIsIm5iZiI6MTc2Mzk4MzAzMS4zNTMsInN1YiI6IjY5MjQzZWI3M2EzYTI3OTBhYWI3NGIwMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MGKmEZygOyTDlui2i9sgfW_zokQHlf6QDyM5E1KAaVI";
     super.onRequest(options, handler);
   }
 }
