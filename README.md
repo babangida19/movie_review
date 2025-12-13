@@ -23,3 +23,5 @@ This project showcases clean architecture, smooth UI animations, and efficient s
 - Genre chips  
 - Cast list  
 - Related movies  
+![Image Alt](https://github.com/babangida19/movie_review/blob/dev/Screenshot%202025-12-13%20at%2006.46.41.png).
+![Image Alt](https://github.com/babangida19/movie_review/blob/dev/Screenshot%202025-12-13%20at%2006.46.50.png).
